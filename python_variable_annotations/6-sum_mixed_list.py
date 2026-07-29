@@ -4,10 +4,10 @@
 """
 
 
-from typing import Union, Optional
+from typing import List, Union, Optional
 
 
-def sum_mixed_list(mxd_lst: list[Union[int, float]]) -> float:
+def sum_mixed_list(mxd_lst: List[Union[int, float]]) -> float:
     """Returns sum of int and floats as float"""
 
     sum = 0
