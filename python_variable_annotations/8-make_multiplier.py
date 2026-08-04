@@ -5,13 +5,14 @@
 
 
 from collections.abc import Callable
+import typing
 
+def make_multiplier(multiplier: float) -> typing.Callable[[float], float]:
+    """Returns multiplied value"""
 
-multiplier: Callable[float]
-
-def make_multiplier(multiplier: float) -> float:
-    """Takes float and returns float multiplied by float"""
-
-    def fun(multiplier):
+    def fun(value: float) -> float:
+        """Takes float and returns float multiplied by float"""
     
-        return multiplier * multiplier
+        return value * value
+    
+    return fun
