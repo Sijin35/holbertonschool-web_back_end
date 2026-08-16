@@ -5,12 +5,13 @@ from pymongo import MongoClient
 
 
 if __name__ == "__main__":
+    """Running only when called"""
+
     client = MongoClient("mongodb://127.0.0.1:27017")
     collection = client.logs.nginx
 
     print("{} logs".format(collection.estimated_document_count()))
     print("Methods:")
-
     for method in ["GET", "POST", "PUT", "PATCH", "DELETE"]:
         count = collection.count_documents({"method": method})
         print("\tmethod {}: {}".format(method, count))
