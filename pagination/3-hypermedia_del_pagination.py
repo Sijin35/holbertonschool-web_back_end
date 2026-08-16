@@ -44,39 +44,25 @@ class Server:
             index, next_index, page_size, data
         """
 
+        dataset = self.indexed_dataset()
+
+        assert index is None or index >= 0
+        assert index < len(dataset)
+
         if index is None:
             index = 0
 
-        assert (
-            isinstance(index, int)
-            and 0 <= index < len(self.indexed_dataset())
-        )
+        data = []
+        i = index
 
-        indexed_dataset = self.indexed_dataset()
-
-        while index in indexed_dataset:
-            indexed_data = indexed_dataset[index]
-
-            if indexed_data in self.dataset():
-                break
-
-            index += 1
-
-        if index not in indexed_dataset:
-            return {
-                "index": index,
-                "data": [],
-                "page_size": page_size,
-                "next_index": None
-            }
-
-        current_index = self.dataset().index(indexed_data)
-        data = self.dataset()[current_index:current_index + page_size]
-        next_index = current_index + page_size
+        while len(data) < page_size and i < len(dataset):
+            if i in dataset:
+                data.append(dataset[i])
+            i = i + 1
 
         return {
             "index": current_index,
             "data": data,
             "page_size": page_size,
-            "next_index": next_index
+            "next_index": i
         }
