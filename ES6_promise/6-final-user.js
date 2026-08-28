@@ -6,9 +6,11 @@ const handleProfileSignup = (firstName, lastName, fileName) => {
     const promise2 = uploadPhoto(fileName);
 
     return Promise.allSettled([promise1, promise2])
-        .then(([status, value]) => {
-            status,
-            value
+        .then(results => {
+            return results.map(result => {
+                result.status,
+                result.value
+            });
         });
 };
 
