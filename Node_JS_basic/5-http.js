@@ -55,7 +55,7 @@ const app = http.createServer((request, response) => {
         response.end();
       })
       .catch((error) => {
-        response.writeHead(500, {
+        response.writeHead(404, {
           'Content-type': 'text/plain',
         });
         response.write(error.message);
