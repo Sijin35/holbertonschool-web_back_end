@@ -38,21 +38,26 @@ const countStudents = (database) => {
 };
 
 const app = http.createServer((request, response) => {
-  response.writeHead(200, {
-    'Content-type': 'text/plain',
-  });
-
   if (request.url === '/') {
+    response.writeHead(200, {
+      'Content-type': 'text/plain',
+    });
     response.write('Hello Holberton School!');
     response.end();
   } else if (request.url === '/students') {
     const database = process.argv[2];
     countStudents(database)
       .then((result) => {
+        response.writeHead(200, {
+          'Content-type': 'text/plain',
+        });
         response.write(`This is the list of our students\n${result}`);
         response.end();
       })
       .catch((error) => {
+        response.writeHead(500, {
+          'Content-type': 'text/plain',
+        });
         response.write(error.message);
         response.end();
       });
