@@ -56,6 +56,8 @@ const app = http.createServer((request, response) => {
         response.write(error.message);
         response.end();
       });
+  } else {
+    response.end();
   }
 });
 
