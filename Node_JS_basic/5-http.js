@@ -58,8 +58,7 @@ const app = http.createServer((request, response) => {
         response.writeHead(500, {
           'Content-type': 'text/plain',
         });
-        response.write(error.message);
-        response.end();
+        response.end(error.message);
       });
   } else {
     response.end('Hello Holberton School!');
