@@ -62,7 +62,7 @@ const app = http.createServer((request, response) => {
         response.end();
       });
   } else {
-    response.end();
+    response.end('Hello Holberton School!');
   }
 });
 
