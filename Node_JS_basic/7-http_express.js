@@ -1,6 +1,5 @@
 const express = require('express');
 const fs = require('fs');
-// const {countStudents} = require('./5-http.js');
 
 const app = express();
 const port = 1245;
@@ -11,9 +10,10 @@ app.get('/', (req, res) => {
 
 app.get('/students', (req, res) => {
   res.set('Content-Type', 'text/plain');
-    const countStudents = (req) => {
+  const database = process.argv[2];
+  const countStudents = ((database) => {
     const promise = new Promise((resolve, reject) => {
-        fs.readFile(req, 'utf-8', (error, data) => {
+        fs.readFile(database, 'utf-8', (error, data) => {
             if (error) {
                 reject(new Error('Cannot load the database'));
             } else {
@@ -21,8 +21,8 @@ app.get('/students', (req, res) => {
                 .split('\n').slice(1)
                 .map((value) => value.trim())
                 .filter((value) => value !== '')
-                .map((value) => value.split(','))
-                .reduce((accumulator, student) => {
+                .map((value) => value.split(','));
+                const students = data.reduce((accumulator, student) => {
                     if (accumulator[student[3]]) {
                         accumulator[student[3]].push(student[0]);
                     } else {
@@ -32,7 +32,7 @@ app.get('/students', (req, res) => {
                 }, {});
 
                 let output = `Number of students: ${data.length}\n`;
-                const keys = Object.keys(data);
+                const keys = Object.keys(students);
                 keys.forEach((key) => {
                     const studentsCount = students[key].length;
                     output += `Number of students in ${key}: ${studentsCount}. List: ${students[key].join(', ')}\n`;
@@ -43,8 +43,14 @@ app.get('/students', (req, res) => {
         });
     });
     return promise;
-  };
-  res.send(countStudents(req));
+  });
+  countStudents(database)
+  .then((result) => {
+      res.send(`This is the list of our students\n${result}`);
+  })
+  .catch((error) => {
+    res.send(`This is the list of our students\n${error.message}`);
+  });
 });
 
 app.listen(port);
