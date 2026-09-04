@@ -44,6 +44,7 @@ const app = http.createServer((request, response) => {
 
   if (request.url === '/') {
     response.write('Hello Holberton School!');
+    response.end();
   } else if (request.url === '/students') {
     const database = process.argv[2];
     response.write('This is the list of our students\n');
