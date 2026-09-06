@@ -2,13 +2,13 @@ const { readDatabase } = require('../utils.js');
 
 class StudentsController {
   static getAllStudents(request, response) {
-      const database = process.argv[2];
-      readDatabase(database)
+    const database = process.argv[2];
+    readDatabase(database)
       .then((students) => {
         response.statusCode = 200;
         let output = 'This is the list of our students\n';
         const keys = Object.keys(students).sort(
-            (a, b) => a.toLowerCase().localeCompare(b.toLowerCase()),
+          (a, b) => a.toLowerCase().localeCompare(b.toLowerCase()),
         );
         keys.forEach((key) => {
           const studentsCount = students[key].length;
@@ -17,24 +17,24 @@ class StudentsController {
         response.end(output);
       })
       .catch(() => {
-          response.statusCode = 500;
-          response.end('Cannot load the database');
+        response.statusCode = 500;
+        response.end('Cannot load the database');
       });
   }
 
   static getAllStudentsByMajor(request, response) {
     const database = process.argv[2];
-    const major = request.params.major;
+    const { major } = request.params;
     if (major === 'CS' || major === 'SWE') {
       readDatabase(database)
-      .then((students) => {
-        response.statusCode = 200;
-        response.end(`List: ${students[major].join(', ')}`)
-      })
-      .catch(() => {
-        response.statusCode = 500;
-        response.end('Cannot load the database');
-      })
+        .then((students) => {
+          response.statusCode = 200;
+          response.end(`List: ${students[major].join(', ')}`);
+        })
+        .catch(() => {
+          response.statusCode = 500;
+          response.end('Cannot load the database');
+        });
     } else {
       response.statusCode = 500;
       response.end('Major parameter must be CS or SWE');
